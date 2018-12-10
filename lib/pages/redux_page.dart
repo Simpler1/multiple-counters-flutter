@@ -7,7 +7,6 @@ import 'package:multiple_counters_flutter/common_widgets/counter_list_tile.dart'
 import 'package:multiple_counters_flutter/common_widgets/list_items_builder.dart';
 import 'package:multiple_counters_flutter/database.dart';
 
-
 // Model
 class ReduxModel {
   ReduxModel({this.counters});
@@ -15,9 +14,7 @@ class ReduxModel {
 }
 
 // Actions
-class CreateCounterAction {
-
-}
+class CreateCounterAction {}
 
 class IncrementCounterAction {
   IncrementCounterAction({this.counter});
@@ -50,13 +47,11 @@ class CountersMiddleware extends MiddlewareClass<ReduxModel> {
       database.createCounter();
     }
     if (action is IncrementCounterAction) {
-      Counter counter =
-          Counter(id: action.counter.id, value: action.counter.value + 1);
+      Counter counter = Counter(id: action.counter.id, value: action.counter.value + 1);
       database.setCounter(counter);
     }
     if (action is DecrementCounterAction) {
-      Counter counter =
-          Counter(id: action.counter.id, value: action.counter.value - 1);
+      Counter counter = Counter(id: action.counter.id, value: action.counter.value - 1);
       database.setCounter(counter);
     }
     if (action is DeleteCounterAction) {
@@ -121,20 +116,21 @@ class ReduxPage extends StatelessWidget {
 
   Widget _buildContent() {
     return StoreBuilder<ReduxModel>(
-        builder: (context, Store<ReduxModel> store) {
-          ReduxModel model = store.state;
-          return ListItemsBuilder<Counter>(
-            items: model.counters,
-            itemBuilder: (context, counter) {
-              return CounterListTile(
-                key: Key('counter-${counter.id}'),
-                counter: counter,
-                onDecrement: (counter) => _decrement(store, counter),
-                onIncrement: (counter) => _increment(store, counter),
-                onDismissed: (counter) => _delete(store, counter),
-              );
-            },
-          );
-    });
+      builder: (context, Store<ReduxModel> store) {
+        ReduxModel model = store.state;
+        return ListItemsBuilder<Counter>(
+          items: model.counters,
+          itemBuilder: (context, counter) {
+            return CounterListTile(
+              key: Key('counter-${counter.id}'),
+              counter: counter,
+              onDecrement: (counter) => _decrement(store, counter),
+              onIncrement: (counter) => _increment(store, counter),
+              onDismissed: (counter) => _delete(store, counter),
+            );
+          },
+        );
+      },
+    );
   }
 }

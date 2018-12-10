@@ -56,18 +56,19 @@ class ScopedModelPage extends StatelessWidget {
 
   Widget _buildContent() {
     return ScopedModelDescendant<CountersModel>(
-        builder: (context, child, model) {
-      return ListItemsBuilder<Counter>(
-          items: model.counters,
-          itemBuilder: (context, counter) {
-            return CounterListTile(
-              key: Key('counter-${counter.id}'),
-              counter: counter,
-              onDecrement: _decrement,
-              onIncrement: _increment,
-              onDismissed: _delete,
-            );
-          });
-    });
+      builder: (context, child, model) {
+        return ListItemsBuilder<Counter>(
+            items: model.counters,
+            itemBuilder: (context, counter) {
+              return CounterListTile(
+                key: Key('counter-${counter.id}'),
+                counter: counter,
+                onDecrement: _decrement,
+                onIncrement: _increment,
+                onDismissed: _delete,
+              );
+            });
+      },
+    );
   }
 }

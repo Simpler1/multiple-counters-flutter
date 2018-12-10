@@ -65,4 +65,3 @@ class StreamsPage extends StatelessWidget {
     );
   }
 }
-

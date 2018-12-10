@@ -51,8 +51,7 @@ class AppDatabase implements Database {
 class _DatabaseStream<T> {
   _DatabaseStream({String apiPath, DatabaseNodeParser<T> parser}) {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-    DatabaseReference databaseReference =
-        firebaseDatabase.reference().child(apiPath);
+    DatabaseReference databaseReference = firebaseDatabase.reference().child(apiPath);
     var eventStream = databaseReference.onValue;
     stream = eventStream.map((event) => parser.parse(event));
   }
@@ -70,9 +69,7 @@ class _DatabaseCountersParser implements DatabaseNodeParser<List<Counter>> {
     if (values != null) {
       Iterable<String> keys = values.keys.cast<String>();
 
-      var counters = keys
-          .map((key) => Counter(id: int.parse(key), value: values[key]))
-          .toList();
+      var counters = keys.map((key) => Counter(id: int.parse(key), value: values[key])).toList();
       counters.sort((lhs, rhs) => rhs.id.compareTo(lhs.id));
       return counters;
     } else {
@@ -83,16 +80,15 @@ class _DatabaseCountersParser implements DatabaseNodeParser<List<Counter>> {
 
 // Cloud Firestore
 class AppFirestore implements Database {
-
   Future<void> createCounter() async {
     int now = DateTime.now().millisecondsSinceEpoch;
     Counter counter = Counter(id: now, value: 0);
     await setCounter(counter);
   }
-  Future<void> setCounter(Counter counter) async {
 
+  Future<void> setCounter(Counter counter) async {
     _documentReference(counter).setData({
-      'value' : counter.value,
+      'value': counter.value,
     });
   }
 
@@ -115,7 +111,6 @@ class AppFirestore implements Database {
 }
 
 abstract class FirestoreNodeParser<T> {
-
   T parse(QuerySnapshot querySnapshot);
 }
 

@@ -86,7 +86,7 @@ class BottomNavigationState extends State<BottomNavigation> {
         var store = Store<ReduxModel>(
           reducer,
           initialState: ReduxModel(counters: null),
-          middleware: [ middleware ],
+          middleware: [middleware],
         );
         middleware.listen(store);
         return StoreProvider(

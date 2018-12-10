@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:multiple_counters_flutter/common_widgets/placeholder_content.dart';
 
