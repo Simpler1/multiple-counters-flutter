@@ -15,6 +15,7 @@ abstract class Database {
   Stream<List<Counter>> countersStream();
 }
 
+//
 // Realtime Database
 class AppDatabase implements Database {
   Future<void> createCounter() async {
@@ -33,16 +34,16 @@ class AppDatabase implements Database {
     await databaseReference.remove();
   }
 
-  DatabaseReference _databaseReference(Counter counter) {
-    var path = '$rootPath/${counter.id}';
-    return FirebaseDatabase.instance.reference().child(path);
-  }
-
   Stream<List<Counter>> countersStream() {
     return _DatabaseStream<List<Counter>>(
       apiPath: rootPath,
       parser: _DatabaseCountersParser(),
     ).stream;
+  }
+
+  DatabaseReference _databaseReference(Counter counter) {
+    var path = '$rootPath/${counter.id}';
+    return FirebaseDatabase.instance.reference().child(path);
   }
 
   static final String rootPath = 'counters';
@@ -78,6 +79,7 @@ class _DatabaseCountersParser implements DatabaseNodeParser<List<Counter>> {
   }
 }
 
+//
 // Cloud Firestore
 class AppFirestore implements Database {
   Future<void> createCounter() async {
@@ -110,6 +112,16 @@ class AppFirestore implements Database {
   static final String rootPath = 'counters';
 }
 
+class _FirestoreStream<T> {
+  _FirestoreStream({String apiPath, FirestoreNodeParser<T> parser}) {
+    CollectionReference collectionReference = Firestore.instance.collection(apiPath);
+    Stream<QuerySnapshot> snapshots = collectionReference.snapshots();
+    stream = snapshots.map((snapshot) => parser.parse(snapshot));
+  }
+
+  Stream<T> stream;
+}
+
 abstract class FirestoreNodeParser<T> {
   T parse(QuerySnapshot querySnapshot);
 }
@@ -125,14 +137,4 @@ class FirestoreCountersParser extends FirestoreNodeParser<List<Counter>> {
     counters.sort((lhs, rhs) => rhs.id.compareTo(lhs.id));
     return counters;
   }
-}
-
-class _FirestoreStream<T> {
-  _FirestoreStream({String apiPath, FirestoreNodeParser<T> parser}) {
-    CollectionReference collectionReference = Firestore.instance.collection(apiPath);
-    Stream<QuerySnapshot> snapshots = collectionReference.snapshots();
-    stream = snapshots.map((snapshot) => parser.parse(snapshot));
-  }
-
-  Stream<T> stream;
 }
