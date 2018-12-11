@@ -23,9 +23,10 @@ class ListItemsBuilder<T> extends StatelessWidget {
 
   Widget _buildList() {
     return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return itemBuilder(context, items[index]);
-        });
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return itemBuilder(context, items[index]);
+      },
+    );
   }
 }
