@@ -4,8 +4,8 @@ description: A new Flutter project.
 dependencies:
   flutter:
     sdk: flutter
-  firebase_database: 1.0.4
-  cloud_firestore: 0.7.4
+  firebase_database: 1.0.5
+  cloud_firestore: ^0.8.2+3
   scoped_model: 0.3.0
   redux: 3.0.0
   flutter_redux: 0.5.2

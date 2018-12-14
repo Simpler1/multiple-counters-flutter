@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multiple_counters_flutter/bottom_navigation.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
