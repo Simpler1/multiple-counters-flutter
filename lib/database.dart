@@ -128,7 +128,9 @@ abstract class FirestoreNodeParser<T> {
 
 class FirestoreCountersParser extends FirestoreNodeParser<List<Counter>> {
   List<Counter> parse(QuerySnapshot querySnapshot) {
+    print(querySnapshot.hashCode);
     var counters = querySnapshot.documents.map((documentSnapshot) {
+      print(documentSnapshot['value']);
       return Counter(
         id: int.parse(documentSnapshot.documentID),
         value: documentSnapshot['value'],
