@@ -70,7 +70,10 @@ class _DatabaseCountersParser implements DatabaseNodeParser<List<Counter>> {
     if (values != null) {
       Iterable<String> keys = values.keys.cast<String>();
 
-      var counters = keys.map((key) => Counter(id: int.parse(key), value: values[key])).toList();
+      var counters = keys.map((key) {
+        print('$key  ${values[key]}');
+        return Counter(id: int.parse(key), value: values[key]);
+      }).toList();
       counters.sort((lhs, rhs) => rhs.id.compareTo(lhs.id));
       return counters;
     } else {
@@ -130,7 +133,7 @@ class FirestoreCountersParser extends FirestoreNodeParser<List<Counter>> {
   List<Counter> parse(QuerySnapshot querySnapshot) {
     print(querySnapshot.hashCode);
     var counters = querySnapshot.documents.map((documentSnapshot) {
-      print(documentSnapshot['value']);
+      print('${documentSnapshot.documentID} ${documentSnapshot['value']}');
       return Counter(
         id: int.parse(documentSnapshot.documentID),
         value: documentSnapshot['value'],
