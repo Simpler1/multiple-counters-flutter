@@ -71,7 +71,7 @@ class _DatabaseCountersParser implements DatabaseNodeParser<List<Counter>> {
       Iterable<String> keys = values.keys.cast<String>();
 
       var counters = keys.map((key) {
-        print('$key  ${values[key]}');
+        // print('$key  ${values[key]}');
         return Counter(id: int.parse(key), value: values[key]);
       }).toList();
       counters.sort((lhs, rhs) => rhs.id.compareTo(lhs.id));
@@ -119,6 +119,14 @@ class _FirestoreStream<T> {
   _FirestoreStream({String apiPath, FirestoreNodeParser<T> parser}) {
     CollectionReference collectionReference = Firestore.instance.collection(apiPath);
     Stream<QuerySnapshot> snapshots = collectionReference.snapshots();
+
+    // snapshots.forEach((snapshot) {
+    //   snapshot.documentChanges.forEach((change) {
+    //     print(change.type);
+    //     print(change.document.data);
+    //   });
+    // });
+
     stream = snapshots.map((snapshot) => parser.parse(snapshot));
   }
 
@@ -131,9 +139,9 @@ abstract class FirestoreNodeParser<T> {
 
 class FirestoreCountersParser extends FirestoreNodeParser<List<Counter>> {
   List<Counter> parse(QuerySnapshot querySnapshot) {
-    print(querySnapshot.hashCode);
+    // print('querySnapshot hashCode: ${querySnapshot.hashCode}');
     var counters = querySnapshot.documents.map((documentSnapshot) {
-      print('${documentSnapshot.documentID} ${documentSnapshot['value']}');
+      // print('${documentSnapshot.documentID} ${documentSnapshot['value']}');
       return Counter(
         id: int.parse(documentSnapshot.documentID),
         value: documentSnapshot['value'],
